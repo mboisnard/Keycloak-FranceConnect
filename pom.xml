@@ -128,7 +128,6 @@
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>${wildfly.maven.plugin.version}</version>
                 </plugin>
-
             </plugins>
         </pluginManagement>
     </build>

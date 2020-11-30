@@ -20,20 +20,21 @@ class FranceConnectPluginTest {
     private static final String PLUGIN_FILE_PATH_IN_CONTAINER = PLUGINS_FOLDER_IN_CONTAINER + PLUGIN_FILE;
 
     private static final String PLUGIN_SUCCESS_DEPLOYMENT_FILE = PLUGIN_FILE + ".deployed";
+    private static final String REALM_FILE = "test-realm.json";
 
     private static KeycloakContainer keycloakContainer;
 
     @BeforeAll
     static void setup() {
         keycloakContainer = new KeycloakContainer("quay.io/keycloak/keycloak:9.0.2")
-            .withRealmImportFile("test-realm.json")
+            .withRealmImportFile(REALM_FILE)
             .withCopyFileToContainer(MountableFile.forHostPath(PLUGIN_FILE_PATH_IN_HOST), PLUGIN_FILE_PATH_IN_CONTAINER);
 
         keycloakContainer.start();
     }
 
     @Test
-    void check_if_france_connect_plugin_is_correctly_deployed() throws IOException, InterruptedException {
+    void should_correctly_deploy_france_connect_plugin() throws IOException, InterruptedException {
         assertThat(keycloakContainer.isRunning()).isTrue();
 
         Container.ExecResult commandResult = keycloakContainer.execInContainer(
