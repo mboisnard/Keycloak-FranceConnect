@@ -101,11 +101,14 @@ public class FranceConnectIdentityProvider extends OIDCIdentityProvider implemen
         if (!config.isValidateSignature()) {
             return true;
         }
-        try (VaultStringSecret vaultStringSecret = session.vault().getStringSecret(getConfig().getClientSecret())){
-            String clientSecret = vaultStringSecret.get().orElse(getConfig().getClientSecret());
+
+        String configuredClientSecretOrVaultKey = config.getClientSecret();
+        try (VaultStringSecret vaultStringSecret = session.vault().getStringSecret(configuredClientSecretOrVaultKey)) {
+            String clientSecret = vaultStringSecret.get()
+                    .orElse(configuredClientSecretOrVaultKey);
+
             return HMACProvider.verify(jws, clientSecret.getBytes());
         }
-        
     }
 
     @Override
