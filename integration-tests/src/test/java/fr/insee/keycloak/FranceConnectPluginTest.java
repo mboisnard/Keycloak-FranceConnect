@@ -26,6 +26,7 @@ class FranceConnectPluginTest {
     @BeforeAll
     static void setup() {
         keycloakContainer = new KeycloakContainer("quay.io/keycloak/keycloak:9.0.2")
+            .withRealmImportFile("test-realm.json")
             .withCopyFileToContainer(MountableFile.forHostPath(PLUGIN_FILE_PATH_IN_HOST), PLUGIN_FILE_PATH_IN_CONTAINER);
 
         keycloakContainer.start();
